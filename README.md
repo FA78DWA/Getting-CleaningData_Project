@@ -5,7 +5,9 @@
 -   [label the data set with descriptive variable names (part 4)](#label-the-data-set-with-descriptive-variable-names-part-4)
 -   [3D dataset (part 5)](#d-dataset-part-5)
 
-To merege **train data** and **test data**, i stacked them ontop of each other (row binding), and added a new variable `testFlag` to differentiate test data from train data. Then i added two other variables, `activity` for activity names, and `subjectID` to specify the subject id for each observation. ![](totalData.png)
+To merege **train data** and **test data**, i stacked them ontop of each other (row binding), and added a new variable `testFlag` to differentiate test data from train data. Then i added two other variables, `activity` for activity names, and `subjectID` to specify the subject id for each observation.
+
+![](totalData.png)
 
 Reading data
 ============
@@ -78,17 +80,50 @@ First, search the variable names `featureNames` for any variable with **mean** o
 varInd <- grep("mean|std", featureNames[,2])
 
 ## check the variables names
-names(totalData)[varInd]
+featureNames[varInd,2]
 ```
 
-    ##  [1] "V1"   "V2"   "V3"   "V4"   "V5"   "V6"   "V41"  "V42"  "V43"  "V44" 
-    ## [11] "V45"  "V46"  "V81"  "V82"  "V83"  "V84"  "V85"  "V86"  "V121" "V122"
-    ## [21] "V123" "V124" "V125" "V126" "V161" "V162" "V163" "V164" "V165" "V166"
-    ## [31] "V201" "V202" "V214" "V215" "V227" "V228" "V240" "V241" "V253" "V254"
-    ## [41] "V266" "V267" "V268" "V269" "V270" "V271" "V294" "V295" "V296" "V345"
-    ## [51] "V346" "V347" "V348" "V349" "V350" "V373" "V374" "V375" "V424" "V425"
-    ## [61] "V426" "V427" "V428" "V429" "V452" "V453" "V454" "V503" "V504" "V513"
-    ## [71] "V516" "V517" "V526" "V529" "V530" "V539" "V542" "V543" "V552"
+    ##  [1] tBodyAcc-mean()-X               tBodyAcc-mean()-Y              
+    ##  [3] tBodyAcc-mean()-Z               tBodyAcc-std()-X               
+    ##  [5] tBodyAcc-std()-Y                tBodyAcc-std()-Z               
+    ##  [7] tGravityAcc-mean()-X            tGravityAcc-mean()-Y           
+    ##  [9] tGravityAcc-mean()-Z            tGravityAcc-std()-X            
+    ## [11] tGravityAcc-std()-Y             tGravityAcc-std()-Z            
+    ## [13] tBodyAccJerk-mean()-X           tBodyAccJerk-mean()-Y          
+    ## [15] tBodyAccJerk-mean()-Z           tBodyAccJerk-std()-X           
+    ## [17] tBodyAccJerk-std()-Y            tBodyAccJerk-std()-Z           
+    ## [19] tBodyGyro-mean()-X              tBodyGyro-mean()-Y             
+    ## [21] tBodyGyro-mean()-Z              tBodyGyro-std()-X              
+    ## [23] tBodyGyro-std()-Y               tBodyGyro-std()-Z              
+    ## [25] tBodyGyroJerk-mean()-X          tBodyGyroJerk-mean()-Y         
+    ## [27] tBodyGyroJerk-mean()-Z          tBodyGyroJerk-std()-X          
+    ## [29] tBodyGyroJerk-std()-Y           tBodyGyroJerk-std()-Z          
+    ## [31] tBodyAccMag-mean()              tBodyAccMag-std()              
+    ## [33] tGravityAccMag-mean()           tGravityAccMag-std()           
+    ## [35] tBodyAccJerkMag-mean()          tBodyAccJerkMag-std()          
+    ## [37] tBodyGyroMag-mean()             tBodyGyroMag-std()             
+    ## [39] tBodyGyroJerkMag-mean()         tBodyGyroJerkMag-std()         
+    ## [41] fBodyAcc-mean()-X               fBodyAcc-mean()-Y              
+    ## [43] fBodyAcc-mean()-Z               fBodyAcc-std()-X               
+    ## [45] fBodyAcc-std()-Y                fBodyAcc-std()-Z               
+    ## [47] fBodyAcc-meanFreq()-X           fBodyAcc-meanFreq()-Y          
+    ## [49] fBodyAcc-meanFreq()-Z           fBodyAccJerk-mean()-X          
+    ## [51] fBodyAccJerk-mean()-Y           fBodyAccJerk-mean()-Z          
+    ## [53] fBodyAccJerk-std()-X            fBodyAccJerk-std()-Y           
+    ## [55] fBodyAccJerk-std()-Z            fBodyAccJerk-meanFreq()-X      
+    ## [57] fBodyAccJerk-meanFreq()-Y       fBodyAccJerk-meanFreq()-Z      
+    ## [59] fBodyGyro-mean()-X              fBodyGyro-mean()-Y             
+    ## [61] fBodyGyro-mean()-Z              fBodyGyro-std()-X              
+    ## [63] fBodyGyro-std()-Y               fBodyGyro-std()-Z              
+    ## [65] fBodyGyro-meanFreq()-X          fBodyGyro-meanFreq()-Y         
+    ## [67] fBodyGyro-meanFreq()-Z          fBodyAccMag-mean()             
+    ## [69] fBodyAccMag-std()               fBodyAccMag-meanFreq()         
+    ## [71] fBodyBodyAccJerkMag-mean()      fBodyBodyAccJerkMag-std()      
+    ## [73] fBodyBodyAccJerkMag-meanFreq()  fBodyBodyGyroMag-mean()        
+    ## [75] fBodyBodyGyroMag-std()          fBodyBodyGyroMag-meanFreq()    
+    ## [77] fBodyBodyGyroJerkMag-mean()     fBodyBodyGyroJerkMag-std()     
+    ## [79] fBodyBodyGyroJerkMag-meanFreq()
+    ## 477 Levels: angle(tBodyAccJerkMean),gravityMean) ...
 
 Then, Extract the corresponding measurements from the merged table `totalData`. Store the output in `meanStd_data`.
 
