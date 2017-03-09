@@ -322,9 +322,9 @@ To create a 3D dataset with **\[rows,columns,depth\]** are **\[activity, measure
 2.  Use `aggregate` to calculate the `mean` for each measure (column), and stor it in `subjAvgData`.
 3.  Change the `rownames` of `subjAvgData` from numbers to activity names.
 
-These three steps are added into a function called `getAverageAndBind`, and applied on `totalData` using `sapply` function.
+These three steps are added into a function called `getAverageAndBind`, and applied on `totalData` using `sapply` function. The output of this step is a **\[measurements x subjects\]=\[561 \* 30\]** datatable stored in `output`, each entry is a list contains the measurements for all the 6 activities for this subject.
 
-Then in a `for loop`, i extracted each `subjAvgData` and bind them into a 3D array using `abind`.
+Then in a `for loop`, i extracted each `subjAvgData` and bind them into a 3D array using `abind`. The final dataset is stored in `TidyData`.
 
 ``` r
 library(abind)
@@ -337,12 +337,35 @@ getAverageAndBind <- function(x){
         rownames(subjAvgData) <- activityNames[,2]
         subjAvgData
 }
+
+
 output <- sapply(subjects, getAverageAndBind)
 
+##check the dimension of output
+dim(output)
+```
+
+    ## [1] 561  30
+
+``` r
+## each entry in output is a list eith 6 values
+output[2,1]
+```
+
+    ## $`tBodyAcc-mean()-Y`
+    ## [1] -0.040513953 -0.001308288 -0.016137590 -0.017383819 -0.009918505
+    ## [6] -0.023953149
+
+``` r
 for(i in subjects){
         if(i == 1)
         TidyData <- data.frame(output[,i])        
         else
         TidyData <- abind(TidyData,data.frame(output[,i]) ,along = 3)
 }
+
+## check tidyData dimension
+dim(TidyData)
 ```
+
+    ## [1]   6 561  30
