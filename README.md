@@ -316,6 +316,16 @@ table(testsubject)
 
 We have a total of 30 subjects. Subject number \[2,4,9,10,12,13,18,20,24\] are in the `testset` and the others are in the `trainset`.
 
+To create a 3D dataset with **\[rows,columns,depth\]** are **\[activity, measurements, subjects\]**, i followed the following steps
+
+1.  Extract the measurements for each subject from `totalData` we created at **part 1**, and stor it in `subj`.
+2.  Use `aggregate` to calculate the `mean` for each measure (column), and stor it in `subjAvgData`.
+3.  Change the `rownames` of `subjAvgData` from numbers to activity names.
+
+These three steps are added into a function called `getAverageAndBind`, and applied on `totalData` using `sapply` function.
+
+Then in a `for loop`, i extracted each `subjAvgData` and bind them into a 3D array using `abind`.
+
 ``` r
 library(abind)
 
