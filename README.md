@@ -5,7 +5,7 @@
 -   [label the data set with descriptive variable names (part 4)](#label-the-data-set-with-descriptive-variable-names-part-4)
 -   [3D dataset (part 5)](#d-dataset-part-5)
 
-To merege **train data** and **test data**, i stacked them ontop of each other (row binding), and added a new variable `testFlag` to differentiate test data from train data. Then i added two other variables, `activity` for activity names, and `subjectID` to specify the subject id for each observation. [The final dataset](totalData.png)
+To merege **train data** and **test data**, i stacked them ontop of each other (row binding), and added a new variable `testFlag` to differentiate test data from train data. Then i added two other variables, `activity` for activity names, and `subjectID` to specify the subject id for each observation. ![](totalData.png)
 
 Reading data
 ============
