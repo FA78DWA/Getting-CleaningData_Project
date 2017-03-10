@@ -412,7 +412,7 @@ table(testsubject)
 
 We have a total of 30 subjects. Subject number \[2,4,9,10,12,13,18,20,24\] are in the `testset` and the others are in the `trainset`.
 
-To create a new tidy data i used `aggregate` to calculate the `mean` for each measurement grouped by `subjectID` and `activity`. The final dataset `TidyData` has dimensions of **\[180x563\]**. The output variables (columns) are `id` for subject id, `activity`, and the 561 measurements.
+To create a new tidy data i used `aggregate` to calculate the `mean` for each measurement grouped by `subjectID` and `activity`. The final dataset `TidyData` has dimensions of **\[180x563\]**. The output variables (columns) are `id` for subject id, `activity`, `testFlag`, and the 561 measurements.
 
 Save the `TidyData` as a `.txt` file.
 
