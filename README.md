@@ -291,7 +291,7 @@ names(totalData)[1:10]
     ##  [7] "tBodyAcc-mad()-X"  "tBodyAcc-mad()-Y"  "tBodyAcc-mad()-Z" 
     ## [10] "tBodyAcc-max()-X"
 
-3D dataset (part 5)
+Tidy dataset (part 5)
 ===================
 
 First, take a look at the `trainsubject` and `testsubject` data.
