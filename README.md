@@ -3,9 +3,13 @@
 -   [Extract the mean and std (part 2)](#extract-the-mean-and-std-part-2)
 -   [Name the activities part(3)](#name-the-activities-part3)
 -   [label the data set with descriptive variable names (part 4)](#label-the-data-set-with-descriptive-variable-names-part-4)
--   [3D dataset (part 5)](#d-dataset-part-5)
+-   [Tidy dataset (part 5)](#tidy-dataset-part-5)
 
-To merege **train data** and **test data**, i stacked them ontop of each other (row binding), and added a new variable `testFlag` to differentiate test data from train data. Then i added two other variables, `activity` for activity names, and `subjectID` to specify the subject id for each observation.
+To merege **train data** and **test data**, i stacked them ontop of each other (row binding) and called it `totalData`. For the subset of data that contains mean and std measures, i stored it in `meanStd_data` variable and added a 3 more variable (columns):
+
+-   `testFlag` to differentiate test data from train data.
+-   `activity` for activity names, and
+-   `subjectID` to specify the subject id for each observation.
 
 ![](totalData.png)
 
@@ -39,45 +43,30 @@ testDim <- dim(testdata)
 trainDim <- dim(traindata)
 ```
 
-combine subject variable from test data and training data into one column `subjectID`.
-
-``` r
-subjectID <- data.table(rbind(testsubject, trainsubject))
-```
-
-add `testFlag` variable which is `TRUE` if the observation is from the `testdata` and `FALSE` otherwise.
-
-``` r
-## add to the test table
-testdata$testFlag <- rep(TRUE,testDim[1])
-## add to the train table
-traindata$testFlag <- rep(FALSE,trainDim[1])
-```
-
 Combine the `testdata` and `traindata` tables. Then, add the `subjectID`
 
 ``` r
 totalData <- rbind(testdata,traindata)
-totalData <- cbind(totalData, setnames(subjectID,c('subjectID')))
 ```
 
-Check the dimensions of the final big dataset `totalData`. In this step, i added `testFlag` and `subjectID` columns.
+Check the dimensions of the final big dataset `totalData`.
 
 ``` r
 ##
 dim(totalData)
 ```
 
-    ## [1] 10299   563
+    ## [1] 10299   561
 
 Extract the mean and std (part 2)
 =================================
 
-First, search the variable names `featureNames` for any variable with **mean** or **std** in its name, get their idicies, store them into `varInd` means **variable indicies**.
+First, search the variable names `featureNames` for any variable with **mean** or **std** in its name, get their idicies, store them into `varInd` means **variable indicies**. Store the number of the extracted columns in `numExtractedVariables` to be used.
 
 ``` r
 ## get varInd
 varInd <- grep("mean|std", featureNames[,2])
+numExtractedVariables <- length(varInd)
 
 ## check the variables names
 featureNames[varInd,2]
@@ -231,6 +220,37 @@ head(meanStd_data)
     ## 5 -0.12171128
     ## 6  0.08360294
 
+Combine subject variable from test data and training data into one column `subjectID`.
+
+``` r
+subjectID <- data.table(rbind(testsubject, trainsubject))
+dim(subjectID)
+```
+
+    ## [1] 10299     1
+
+Create `testFlag` variable which is `TRUE` if the observation is from the `testdata` and `FALSE` otherwise.
+
+``` r
+##
+testFlag <- data.table(rep(c(T,F), c(testDim[1],trainDim[1])))
+
+dim(testFlag)
+```
+
+    ## [1] 10299     1
+
+Combine `subjectID` and `testFlag` variables to `meanStd_data`
+
+``` r
+meanStd_data <- cbind(meanStd_data, setnames(subjectID,c('subjectID')), setnames(testFlag,c('testFlag')))
+
+## check the dimensions for the meanStd_data
+dim(meanStd_data)
+```
+
+    ## [1] 10299    81
+
 Name the activities part(3)
 ===========================
 
@@ -252,19 +272,42 @@ trainlabels_names <- sapply(trainlabels,replaceNumberWithName)
 Then, conmbine activity labels `testlabels_names`, and `trainlabels_names` into a single column `combinedactivity`.
 
 ``` r
-combinedactivity <- rbind(testlabels_names, trainlabels_names)
+combinedactivity <- data.table(rbind(testlabels_names, trainlabels_names))
 ```
 
-finally, add the label variable to the totalData
+finally, add the label variable to the `meanStd_data`
 
 ``` r
-totalData$activity <- combinedactivity
+meanStd_data <- cbind(meanStd_data, setnames(combinedactivity,c('activity')))
 
-## chech totalData dimensions
-dim(totalData)
+## check meanStd_data dimensions
+dim(meanStd_data)
 ```
 
-    ## [1] 10299   564
+    ## [1] 10299    82
+
+``` r
+## Check the new names
+names(meanStd_data)
+```
+
+    ##  [1] "V1"        "V2"        "V3"        "V4"        "V5"       
+    ##  [6] "V6"        "V41"       "V42"       "V43"       "V44"      
+    ## [11] "V45"       "V46"       "V81"       "V82"       "V83"      
+    ## [16] "V84"       "V85"       "V86"       "V121"      "V122"     
+    ## [21] "V123"      "V124"      "V125"      "V126"      "V161"     
+    ## [26] "V162"      "V163"      "V164"      "V165"      "V166"     
+    ## [31] "V201"      "V202"      "V214"      "V215"      "V227"     
+    ## [36] "V228"      "V240"      "V241"      "V253"      "V254"     
+    ## [41] "V266"      "V267"      "V268"      "V269"      "V270"     
+    ## [46] "V271"      "V294"      "V295"      "V296"      "V345"     
+    ## [51] "V346"      "V347"      "V348"      "V349"      "V350"     
+    ## [56] "V373"      "V374"      "V375"      "V424"      "V425"     
+    ## [61] "V426"      "V427"      "V428"      "V429"      "V452"     
+    ## [66] "V453"      "V454"      "V503"      "V504"      "V513"     
+    ## [71] "V516"      "V517"      "V526"      "V529"      "V530"     
+    ## [76] "V539"      "V542"      "V543"      "V552"      "subjectID"
+    ## [81] "testFlag"  "activity"
 
 label the data set with descriptive variable names (part 4)
 ===========================================================
@@ -273,26 +316,79 @@ Replacing the old variable names `V1, V2, ... V561` with the variable names give
 
 ``` r
 ## old column names
-names(totalData)[1:10]
+names(meanStd_data)
 ```
 
-    ##  [1] "V1"  "V2"  "V3"  "V4"  "V5"  "V6"  "V7"  "V8"  "V9"  "V10"
+    ##  [1] "V1"        "V2"        "V3"        "V4"        "V5"       
+    ##  [6] "V6"        "V41"       "V42"       "V43"       "V44"      
+    ## [11] "V45"       "V46"       "V81"       "V82"       "V83"      
+    ## [16] "V84"       "V85"       "V86"       "V121"      "V122"     
+    ## [21] "V123"      "V124"      "V125"      "V126"      "V161"     
+    ## [26] "V162"      "V163"      "V164"      "V165"      "V166"     
+    ## [31] "V201"      "V202"      "V214"      "V215"      "V227"     
+    ## [36] "V228"      "V240"      "V241"      "V253"      "V254"     
+    ## [41] "V266"      "V267"      "V268"      "V269"      "V270"     
+    ## [46] "V271"      "V294"      "V295"      "V296"      "V345"     
+    ## [51] "V346"      "V347"      "V348"      "V349"      "V350"     
+    ## [56] "V373"      "V374"      "V375"      "V424"      "V425"     
+    ## [61] "V426"      "V427"      "V428"      "V429"      "V452"     
+    ## [66] "V453"      "V454"      "V503"      "V504"      "V513"     
+    ## [71] "V516"      "V517"      "V526"      "V529"      "V530"     
+    ## [76] "V539"      "V542"      "V543"      "V552"      "subjectID"
+    ## [81] "testFlag"  "activity"
 
 ``` r
-## set the new names
-setnames(totalData,colnames(totalData)[1:561],as.character(featureNames[,2]))
+## set the new names. VarInd from step #2
+setnames(meanStd_data,colnames(meanStd_data)[1:numExtractedVariables],as.character(featureNames$V2[varInd]))
 
 ## new column names
-names(totalData)[1:10]
+names(meanStd_data)
 ```
 
-    ##  [1] "tBodyAcc-mean()-X" "tBodyAcc-mean()-Y" "tBodyAcc-mean()-Z"
-    ##  [4] "tBodyAcc-std()-X"  "tBodyAcc-std()-Y"  "tBodyAcc-std()-Z" 
-    ##  [7] "tBodyAcc-mad()-X"  "tBodyAcc-mad()-Y"  "tBodyAcc-mad()-Z" 
-    ## [10] "tBodyAcc-max()-X"
+    ##  [1] "tBodyAcc-mean()-X"               "tBodyAcc-mean()-Y"              
+    ##  [3] "tBodyAcc-mean()-Z"               "tBodyAcc-std()-X"               
+    ##  [5] "tBodyAcc-std()-Y"                "tBodyAcc-std()-Z"               
+    ##  [7] "tGravityAcc-mean()-X"            "tGravityAcc-mean()-Y"           
+    ##  [9] "tGravityAcc-mean()-Z"            "tGravityAcc-std()-X"            
+    ## [11] "tGravityAcc-std()-Y"             "tGravityAcc-std()-Z"            
+    ## [13] "tBodyAccJerk-mean()-X"           "tBodyAccJerk-mean()-Y"          
+    ## [15] "tBodyAccJerk-mean()-Z"           "tBodyAccJerk-std()-X"           
+    ## [17] "tBodyAccJerk-std()-Y"            "tBodyAccJerk-std()-Z"           
+    ## [19] "tBodyGyro-mean()-X"              "tBodyGyro-mean()-Y"             
+    ## [21] "tBodyGyro-mean()-Z"              "tBodyGyro-std()-X"              
+    ## [23] "tBodyGyro-std()-Y"               "tBodyGyro-std()-Z"              
+    ## [25] "tBodyGyroJerk-mean()-X"          "tBodyGyroJerk-mean()-Y"         
+    ## [27] "tBodyGyroJerk-mean()-Z"          "tBodyGyroJerk-std()-X"          
+    ## [29] "tBodyGyroJerk-std()-Y"           "tBodyGyroJerk-std()-Z"          
+    ## [31] "tBodyAccMag-mean()"              "tBodyAccMag-std()"              
+    ## [33] "tGravityAccMag-mean()"           "tGravityAccMag-std()"           
+    ## [35] "tBodyAccJerkMag-mean()"          "tBodyAccJerkMag-std()"          
+    ## [37] "tBodyGyroMag-mean()"             "tBodyGyroMag-std()"             
+    ## [39] "tBodyGyroJerkMag-mean()"         "tBodyGyroJerkMag-std()"         
+    ## [41] "fBodyAcc-mean()-X"               "fBodyAcc-mean()-Y"              
+    ## [43] "fBodyAcc-mean()-Z"               "fBodyAcc-std()-X"               
+    ## [45] "fBodyAcc-std()-Y"                "fBodyAcc-std()-Z"               
+    ## [47] "fBodyAcc-meanFreq()-X"           "fBodyAcc-meanFreq()-Y"          
+    ## [49] "fBodyAcc-meanFreq()-Z"           "fBodyAccJerk-mean()-X"          
+    ## [51] "fBodyAccJerk-mean()-Y"           "fBodyAccJerk-mean()-Z"          
+    ## [53] "fBodyAccJerk-std()-X"            "fBodyAccJerk-std()-Y"           
+    ## [55] "fBodyAccJerk-std()-Z"            "fBodyAccJerk-meanFreq()-X"      
+    ## [57] "fBodyAccJerk-meanFreq()-Y"       "fBodyAccJerk-meanFreq()-Z"      
+    ## [59] "fBodyGyro-mean()-X"              "fBodyGyro-mean()-Y"             
+    ## [61] "fBodyGyro-mean()-Z"              "fBodyGyro-std()-X"              
+    ## [63] "fBodyGyro-std()-Y"               "fBodyGyro-std()-Z"              
+    ## [65] "fBodyGyro-meanFreq()-X"          "fBodyGyro-meanFreq()-Y"         
+    ## [67] "fBodyGyro-meanFreq()-Z"          "fBodyAccMag-mean()"             
+    ## [69] "fBodyAccMag-std()"               "fBodyAccMag-meanFreq()"         
+    ## [71] "fBodyBodyAccJerkMag-mean()"      "fBodyBodyAccJerkMag-std()"      
+    ## [73] "fBodyBodyAccJerkMag-meanFreq()"  "fBodyBodyGyroMag-mean()"        
+    ## [75] "fBodyBodyGyroMag-std()"          "fBodyBodyGyroMag-meanFreq()"    
+    ## [77] "fBodyBodyGyroJerkMag-mean()"     "fBodyBodyGyroJerkMag-std()"     
+    ## [79] "fBodyBodyGyroJerkMag-meanFreq()" "subjectID"                      
+    ## [81] "testFlag"                        "activity"
 
-3D dataset (part 5)
-===================
+Tidy dataset (part 5)
+=====================
 
 First, take a look at the `trainsubject` and `testsubject` data.
 
@@ -321,13 +417,13 @@ To create a new tidy data i used `aggregate` to calculate the `mean` for each me
 Save the `TidyData` as a `.txt` file.
 
 ``` r
-TidyData <- aggregate(totalData[,1:561], by=list("id"=totalData$subjectID, "activity" = totalData$activity), mean)
+TidyData <- aggregate(meanStd_data[,1:numExtractedVariables], by=list("id"=meanStd_data$subjectID, "activity" = meanStd_data$activity), mean)
 
 ## check tidyData dimension
 dim(TidyData)
 ```
 
-    ## [1] 180 563
+    ## [1] 180  81
 
 ``` r
 write.table(TidyData,"TidyData.txt", row.names = F)
