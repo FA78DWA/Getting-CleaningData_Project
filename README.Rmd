@@ -63,7 +63,7 @@ dim(totalData)
 First, search the variable names `featureNames` for any variable with **mean** or **std** in its name, get their idicies, store them into `varInd` means **variable indicies**. Store the number of the extracted columns in `numExtractedVariables` to be used.
 ```{r}
 ## get varInd
-varInd <- grep("mean|std", featureNames[,2])
+varInd <- grep("mean\\(\\)|std\\(\\)", featureNames[,2])
 numExtractedVariables <- length(varInd)
 
 ## check the variables names

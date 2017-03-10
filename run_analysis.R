@@ -28,7 +28,7 @@ dim(totalData)
 
 # Extract the mean and std (part 2) ------------------------------------------------------
 ## get varInd
-varInd <- grep("mean|std", featureNames[,2])
+varInd <- grep("mean\\(\\)|std\\(\\)", featureNames[,2])
 numExtractedVariables <- length(varInd)
 
 ## check the variables names

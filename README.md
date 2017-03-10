@@ -65,53 +65,46 @@ First, search the variable names `featureNames` for any variable with **mean** o
 
 ``` r
 ## get varInd
-varInd <- grep("mean|std", featureNames[,2])
+varInd <- grep("mean\\(\\)|std\\(\\)", featureNames[,2])
 numExtractedVariables <- length(varInd)
 
 ## check the variables names
 featureNames[varInd,2]
 ```
 
-    ##  [1] tBodyAcc-mean()-X               tBodyAcc-mean()-Y              
-    ##  [3] tBodyAcc-mean()-Z               tBodyAcc-std()-X               
-    ##  [5] tBodyAcc-std()-Y                tBodyAcc-std()-Z               
-    ##  [7] tGravityAcc-mean()-X            tGravityAcc-mean()-Y           
-    ##  [9] tGravityAcc-mean()-Z            tGravityAcc-std()-X            
-    ## [11] tGravityAcc-std()-Y             tGravityAcc-std()-Z            
-    ## [13] tBodyAccJerk-mean()-X           tBodyAccJerk-mean()-Y          
-    ## [15] tBodyAccJerk-mean()-Z           tBodyAccJerk-std()-X           
-    ## [17] tBodyAccJerk-std()-Y            tBodyAccJerk-std()-Z           
-    ## [19] tBodyGyro-mean()-X              tBodyGyro-mean()-Y             
-    ## [21] tBodyGyro-mean()-Z              tBodyGyro-std()-X              
-    ## [23] tBodyGyro-std()-Y               tBodyGyro-std()-Z              
-    ## [25] tBodyGyroJerk-mean()-X          tBodyGyroJerk-mean()-Y         
-    ## [27] tBodyGyroJerk-mean()-Z          tBodyGyroJerk-std()-X          
-    ## [29] tBodyGyroJerk-std()-Y           tBodyGyroJerk-std()-Z          
-    ## [31] tBodyAccMag-mean()              tBodyAccMag-std()              
-    ## [33] tGravityAccMag-mean()           tGravityAccMag-std()           
-    ## [35] tBodyAccJerkMag-mean()          tBodyAccJerkMag-std()          
-    ## [37] tBodyGyroMag-mean()             tBodyGyroMag-std()             
-    ## [39] tBodyGyroJerkMag-mean()         tBodyGyroJerkMag-std()         
-    ## [41] fBodyAcc-mean()-X               fBodyAcc-mean()-Y              
-    ## [43] fBodyAcc-mean()-Z               fBodyAcc-std()-X               
-    ## [45] fBodyAcc-std()-Y                fBodyAcc-std()-Z               
-    ## [47] fBodyAcc-meanFreq()-X           fBodyAcc-meanFreq()-Y          
-    ## [49] fBodyAcc-meanFreq()-Z           fBodyAccJerk-mean()-X          
-    ## [51] fBodyAccJerk-mean()-Y           fBodyAccJerk-mean()-Z          
-    ## [53] fBodyAccJerk-std()-X            fBodyAccJerk-std()-Y           
-    ## [55] fBodyAccJerk-std()-Z            fBodyAccJerk-meanFreq()-X      
-    ## [57] fBodyAccJerk-meanFreq()-Y       fBodyAccJerk-meanFreq()-Z      
-    ## [59] fBodyGyro-mean()-X              fBodyGyro-mean()-Y             
-    ## [61] fBodyGyro-mean()-Z              fBodyGyro-std()-X              
-    ## [63] fBodyGyro-std()-Y               fBodyGyro-std()-Z              
-    ## [65] fBodyGyro-meanFreq()-X          fBodyGyro-meanFreq()-Y         
-    ## [67] fBodyGyro-meanFreq()-Z          fBodyAccMag-mean()             
-    ## [69] fBodyAccMag-std()               fBodyAccMag-meanFreq()         
-    ## [71] fBodyBodyAccJerkMag-mean()      fBodyBodyAccJerkMag-std()      
-    ## [73] fBodyBodyAccJerkMag-meanFreq()  fBodyBodyGyroMag-mean()        
-    ## [75] fBodyBodyGyroMag-std()          fBodyBodyGyroMag-meanFreq()    
-    ## [77] fBodyBodyGyroJerkMag-mean()     fBodyBodyGyroJerkMag-std()     
-    ## [79] fBodyBodyGyroJerkMag-meanFreq()
+    ##  [1] tBodyAcc-mean()-X           tBodyAcc-mean()-Y          
+    ##  [3] tBodyAcc-mean()-Z           tBodyAcc-std()-X           
+    ##  [5] tBodyAcc-std()-Y            tBodyAcc-std()-Z           
+    ##  [7] tGravityAcc-mean()-X        tGravityAcc-mean()-Y       
+    ##  [9] tGravityAcc-mean()-Z        tGravityAcc-std()-X        
+    ## [11] tGravityAcc-std()-Y         tGravityAcc-std()-Z        
+    ## [13] tBodyAccJerk-mean()-X       tBodyAccJerk-mean()-Y      
+    ## [15] tBodyAccJerk-mean()-Z       tBodyAccJerk-std()-X       
+    ## [17] tBodyAccJerk-std()-Y        tBodyAccJerk-std()-Z       
+    ## [19] tBodyGyro-mean()-X          tBodyGyro-mean()-Y         
+    ## [21] tBodyGyro-mean()-Z          tBodyGyro-std()-X          
+    ## [23] tBodyGyro-std()-Y           tBodyGyro-std()-Z          
+    ## [25] tBodyGyroJerk-mean()-X      tBodyGyroJerk-mean()-Y     
+    ## [27] tBodyGyroJerk-mean()-Z      tBodyGyroJerk-std()-X      
+    ## [29] tBodyGyroJerk-std()-Y       tBodyGyroJerk-std()-Z      
+    ## [31] tBodyAccMag-mean()          tBodyAccMag-std()          
+    ## [33] tGravityAccMag-mean()       tGravityAccMag-std()       
+    ## [35] tBodyAccJerkMag-mean()      tBodyAccJerkMag-std()      
+    ## [37] tBodyGyroMag-mean()         tBodyGyroMag-std()         
+    ## [39] tBodyGyroJerkMag-mean()     tBodyGyroJerkMag-std()     
+    ## [41] fBodyAcc-mean()-X           fBodyAcc-mean()-Y          
+    ## [43] fBodyAcc-mean()-Z           fBodyAcc-std()-X           
+    ## [45] fBodyAcc-std()-Y            fBodyAcc-std()-Z           
+    ## [47] fBodyAccJerk-mean()-X       fBodyAccJerk-mean()-Y      
+    ## [49] fBodyAccJerk-mean()-Z       fBodyAccJerk-std()-X       
+    ## [51] fBodyAccJerk-std()-Y        fBodyAccJerk-std()-Z       
+    ## [53] fBodyGyro-mean()-X          fBodyGyro-mean()-Y         
+    ## [55] fBodyGyro-mean()-Z          fBodyGyro-std()-X          
+    ## [57] fBodyGyro-std()-Y           fBodyGyro-std()-Z          
+    ## [59] fBodyAccMag-mean()          fBodyAccMag-std()          
+    ## [61] fBodyBodyAccJerkMag-mean()  fBodyBodyAccJerkMag-std()  
+    ## [63] fBodyBodyGyroMag-mean()     fBodyBodyGyroMag-std()     
+    ## [65] fBodyBodyGyroJerkMag-mean() fBodyBodyGyroJerkMag-std() 
     ## 477 Levels: angle(tBodyAccJerkMean),gravityMean) ...
 
 Then, Extract the corresponding measurements from the merged table `totalData`. Store the output in `meanStd_data`.
@@ -170,55 +163,34 @@ head(meanStd_data)
     ## 4 -0.9471844 -0.9703682 -0.9888204 -0.9855681 -0.9930298 -0.9682839
     ## 5 -0.9574192 -0.9694995 -0.9900621 -0.9904189 -0.9924042 -0.9692072
     ## 6 -0.9697442 -0.9732947 -0.9878482 -0.9890428 -0.9938427 -0.9707293
-    ##         V268       V269       V270       V271        V294         V295
-    ## 1 -0.7890915 -0.9482903 -0.9251369 -0.6363167  0.01111695  0.121250690
-    ## 2 -0.9566748 -0.9843500 -0.9701748 -0.9418619  0.35206637  0.174546760
-    ## 3 -0.9668996 -0.9947537 -0.9736959 -0.9622866  0.18043767  0.133458310
-    ## 4 -0.9669116 -0.9955936 -0.9769176 -0.9689579  0.06270005  0.261719750
-    ## 5 -0.9796527 -0.9945037 -0.9674681 -0.9782399 -0.01890990 -0.009980057
-    ## 6 -0.9755771 -0.9946471 -0.9710160 -0.9614438 -0.17797819 -0.122556470
-    ##          V296       V345       V346       V347       V348       V349
-    ## 1 -0.52294869 -0.8996332 -0.9374850 -0.9235514 -0.9244291 -0.9432104
-    ## 2 -0.32067339 -0.9435190 -0.9691623 -0.9734489 -0.9616312 -0.9800263
-    ## 3  0.18265917 -0.9910295 -0.9733689 -0.9717030 -0.9919122 -0.9709857
-    ## 4  0.15182490 -0.9905362 -0.9724525 -0.9703374 -0.9919600 -0.9754341
-    ## 5  0.09521546 -0.9914800 -0.9798346 -0.9834930 -0.9935709 -0.9786966
-    ## 6 -0.12332551 -0.9937759 -0.9789845 -0.9860986 -0.9944514 -0.9807585
-    ##         V350       V373        V374        V375       V424       V425
-    ## 1 -0.9478915 0.45100539  0.13716703 -0.18029913 -0.8235579 -0.8079160
-    ## 2 -0.9807873 0.47285157  0.16719768 -0.24311457 -0.9225130 -0.9264957
-    ## 3 -0.9723222 0.27074412 -0.27224472 -0.08249234 -0.9728456 -0.9808333
-    ## 4 -0.9806211 0.27733393 -0.03832647  0.02181301 -0.9715016 -0.9813450
-    ## 5 -0.9885033 0.18027241 -0.13916163  0.10085294 -0.9764045 -0.9804043
-    ## 6 -0.9875569 0.07917486 -0.35372787 -0.11027662 -0.9797034 -0.9805261
-    ##         V426       V427       V428       V429        V452        V453
-    ## 1 -0.9179126 -0.9032627 -0.8226770 -0.9561651  0.18403457 -0.05932286
-    ## 2 -0.9682295 -0.9270506 -0.9320107 -0.9701434  0.01810862 -0.22726634
-    ## 3 -0.9720602 -0.9731979 -0.9771945 -0.9790953 -0.47914475 -0.21008368
-    ## 4 -0.9667055 -0.9671856 -0.9719094 -0.9652755 -0.49695391 -0.49990580
-    ## 5 -0.9687820 -0.9743979 -0.9765654 -0.9700165 -0.42750236 -0.27813128
-    ## 6 -0.9602064 -0.9800146 -0.9742469 -0.9678163 -0.32012497 -0.33338449
-    ##          V454       V503       V504        V513       V516       V517
-    ## 1  0.43810716 -0.7909464 -0.7110740 -0.48345254 -0.8950612 -0.8963596
-    ## 2 -0.15169839 -0.9541266 -0.9597458  0.20346524 -0.9454372 -0.9341520
-    ## 3  0.04930984 -0.9756497 -0.9837843  0.34245571 -0.9710690 -0.9703078
-    ## 4 -0.25889610 -0.9733931 -0.9821196  0.33120550 -0.9716545 -0.9784844
-    ## 5 -0.29130830 -0.9777390 -0.9788381  0.07111154 -0.9874888 -0.9897160
-    ## 6 -0.05054079 -0.9780025 -0.9798756 -0.04345482 -0.9912947 -0.9917440
-    ##          V526       V529       V530        V539       V542       V543
-    ## 1 -0.03535579 -0.7706100 -0.7971128 -0.04739130 -0.8901655 -0.9073076
-    ## 2 -0.49121253 -0.9244608 -0.9167741 -0.03147392 -0.9519774 -0.9382124
-    ## 3  0.14072902 -0.9752095 -0.9739984 -0.16880542 -0.9856888 -0.9832727
-    ## 4  0.14864853 -0.9762973 -0.9712482 -0.28563574 -0.9855619 -0.9858429
-    ## 5  0.42224872 -0.9770070 -0.9696193 -0.34906064 -0.9904980 -0.9905719
-    ## 6  0.40441535 -0.9770345 -0.9750513 -0.17703141 -0.9887326 -0.9898050
-    ##          V552
-    ## 1  0.07164545
-    ## 2 -0.40118872
-    ## 3  0.06289131
-    ## 4  0.11669529
-    ## 5 -0.12171128
-    ## 6  0.08360294
+    ##         V268       V269       V270       V271       V345       V346
+    ## 1 -0.7890915 -0.9482903 -0.9251369 -0.6363167 -0.8996332 -0.9374850
+    ## 2 -0.9566748 -0.9843500 -0.9701748 -0.9418619 -0.9435190 -0.9691623
+    ## 3 -0.9668996 -0.9947537 -0.9736959 -0.9622866 -0.9910295 -0.9733689
+    ## 4 -0.9669116 -0.9955936 -0.9769176 -0.9689579 -0.9905362 -0.9724525
+    ## 5 -0.9796527 -0.9945037 -0.9674681 -0.9782399 -0.9914800 -0.9798346
+    ## 6 -0.9755771 -0.9946471 -0.9710160 -0.9614438 -0.9937759 -0.9789845
+    ##         V347       V348       V349       V350       V424       V425
+    ## 1 -0.9235514 -0.9244291 -0.9432104 -0.9478915 -0.8235579 -0.8079160
+    ## 2 -0.9734489 -0.9616312 -0.9800263 -0.9807873 -0.9225130 -0.9264957
+    ## 3 -0.9717030 -0.9919122 -0.9709857 -0.9723222 -0.9728456 -0.9808333
+    ## 4 -0.9703374 -0.9919600 -0.9754341 -0.9806211 -0.9715016 -0.9813450
+    ## 5 -0.9834930 -0.9935709 -0.9786966 -0.9885033 -0.9764045 -0.9804043
+    ## 6 -0.9860986 -0.9944514 -0.9807585 -0.9875569 -0.9797034 -0.9805261
+    ##         V426       V427       V428       V429       V503       V504
+    ## 1 -0.9179126 -0.9032627 -0.8226770 -0.9561651 -0.7909464 -0.7110740
+    ## 2 -0.9682295 -0.9270506 -0.9320107 -0.9701434 -0.9541266 -0.9597458
+    ## 3 -0.9720602 -0.9731979 -0.9771945 -0.9790953 -0.9756497 -0.9837843
+    ## 4 -0.9667055 -0.9671856 -0.9719094 -0.9652755 -0.9733931 -0.9821196
+    ## 5 -0.9687820 -0.9743979 -0.9765654 -0.9700165 -0.9777390 -0.9788381
+    ## 6 -0.9602064 -0.9800146 -0.9742469 -0.9678163 -0.9780025 -0.9798756
+    ##         V516       V517       V529       V530       V542       V543
+    ## 1 -0.8950612 -0.8963596 -0.7706100 -0.7971128 -0.8901655 -0.9073076
+    ## 2 -0.9454372 -0.9341520 -0.9244608 -0.9167741 -0.9519774 -0.9382124
+    ## 3 -0.9710690 -0.9703078 -0.9752095 -0.9739984 -0.9856888 -0.9832727
+    ## 4 -0.9716545 -0.9784844 -0.9762973 -0.9712482 -0.9855619 -0.9858429
+    ## 5 -0.9874888 -0.9897160 -0.9770070 -0.9696193 -0.9904980 -0.9905719
+    ## 6 -0.9912947 -0.9917440 -0.9770345 -0.9750513 -0.9887326 -0.9898050
 
 Combine subject variable from test data and training data into one column `subjectID`.
 
@@ -249,7 +221,7 @@ meanStd_data <- cbind(meanStd_data, setnames(subjectID,c('subjectID')), setnames
 dim(meanStd_data)
 ```
 
-    ## [1] 10299    81
+    ## [1] 10299    68
 
 Name the activities part(3)
 ===========================
@@ -284,7 +256,7 @@ meanStd_data <- cbind(meanStd_data, setnames(combinedactivity,c('activity')))
 dim(meanStd_data)
 ```
 
-    ## [1] 10299    82
+    ## [1] 10299    69
 
 ``` r
 ## Check the new names
@@ -300,14 +272,11 @@ names(meanStd_data)
     ## [31] "V201"      "V202"      "V214"      "V215"      "V227"     
     ## [36] "V228"      "V240"      "V241"      "V253"      "V254"     
     ## [41] "V266"      "V267"      "V268"      "V269"      "V270"     
-    ## [46] "V271"      "V294"      "V295"      "V296"      "V345"     
-    ## [51] "V346"      "V347"      "V348"      "V349"      "V350"     
-    ## [56] "V373"      "V374"      "V375"      "V424"      "V425"     
-    ## [61] "V426"      "V427"      "V428"      "V429"      "V452"     
-    ## [66] "V453"      "V454"      "V503"      "V504"      "V513"     
-    ## [71] "V516"      "V517"      "V526"      "V529"      "V530"     
-    ## [76] "V539"      "V542"      "V543"      "V552"      "subjectID"
-    ## [81] "testFlag"  "activity"
+    ## [46] "V271"      "V345"      "V346"      "V347"      "V348"     
+    ## [51] "V349"      "V350"      "V424"      "V425"      "V426"     
+    ## [56] "V427"      "V428"      "V429"      "V503"      "V504"     
+    ## [61] "V516"      "V517"      "V529"      "V530"      "V542"     
+    ## [66] "V543"      "subjectID" "testFlag"  "activity"
 
 label the data set with descriptive variable names (part 4)
 ===========================================================
@@ -328,14 +297,11 @@ names(meanStd_data)
     ## [31] "V201"      "V202"      "V214"      "V215"      "V227"     
     ## [36] "V228"      "V240"      "V241"      "V253"      "V254"     
     ## [41] "V266"      "V267"      "V268"      "V269"      "V270"     
-    ## [46] "V271"      "V294"      "V295"      "V296"      "V345"     
-    ## [51] "V346"      "V347"      "V348"      "V349"      "V350"     
-    ## [56] "V373"      "V374"      "V375"      "V424"      "V425"     
-    ## [61] "V426"      "V427"      "V428"      "V429"      "V452"     
-    ## [66] "V453"      "V454"      "V503"      "V504"      "V513"     
-    ## [71] "V516"      "V517"      "V526"      "V529"      "V530"     
-    ## [76] "V539"      "V542"      "V543"      "V552"      "subjectID"
-    ## [81] "testFlag"  "activity"
+    ## [46] "V271"      "V345"      "V346"      "V347"      "V348"     
+    ## [51] "V349"      "V350"      "V424"      "V425"      "V426"     
+    ## [56] "V427"      "V428"      "V429"      "V503"      "V504"     
+    ## [61] "V516"      "V517"      "V529"      "V530"      "V542"     
+    ## [66] "V543"      "subjectID" "testFlag"  "activity"
 
 ``` r
 ## set the new names. VarInd from step #2
@@ -345,47 +311,41 @@ setnames(meanStd_data,colnames(meanStd_data)[1:numExtractedVariables],as.charact
 names(meanStd_data)
 ```
 
-    ##  [1] "tBodyAcc-mean()-X"               "tBodyAcc-mean()-Y"              
-    ##  [3] "tBodyAcc-mean()-Z"               "tBodyAcc-std()-X"               
-    ##  [5] "tBodyAcc-std()-Y"                "tBodyAcc-std()-Z"               
-    ##  [7] "tGravityAcc-mean()-X"            "tGravityAcc-mean()-Y"           
-    ##  [9] "tGravityAcc-mean()-Z"            "tGravityAcc-std()-X"            
-    ## [11] "tGravityAcc-std()-Y"             "tGravityAcc-std()-Z"            
-    ## [13] "tBodyAccJerk-mean()-X"           "tBodyAccJerk-mean()-Y"          
-    ## [15] "tBodyAccJerk-mean()-Z"           "tBodyAccJerk-std()-X"           
-    ## [17] "tBodyAccJerk-std()-Y"            "tBodyAccJerk-std()-Z"           
-    ## [19] "tBodyGyro-mean()-X"              "tBodyGyro-mean()-Y"             
-    ## [21] "tBodyGyro-mean()-Z"              "tBodyGyro-std()-X"              
-    ## [23] "tBodyGyro-std()-Y"               "tBodyGyro-std()-Z"              
-    ## [25] "tBodyGyroJerk-mean()-X"          "tBodyGyroJerk-mean()-Y"         
-    ## [27] "tBodyGyroJerk-mean()-Z"          "tBodyGyroJerk-std()-X"          
-    ## [29] "tBodyGyroJerk-std()-Y"           "tBodyGyroJerk-std()-Z"          
-    ## [31] "tBodyAccMag-mean()"              "tBodyAccMag-std()"              
-    ## [33] "tGravityAccMag-mean()"           "tGravityAccMag-std()"           
-    ## [35] "tBodyAccJerkMag-mean()"          "tBodyAccJerkMag-std()"          
-    ## [37] "tBodyGyroMag-mean()"             "tBodyGyroMag-std()"             
-    ## [39] "tBodyGyroJerkMag-mean()"         "tBodyGyroJerkMag-std()"         
-    ## [41] "fBodyAcc-mean()-X"               "fBodyAcc-mean()-Y"              
-    ## [43] "fBodyAcc-mean()-Z"               "fBodyAcc-std()-X"               
-    ## [45] "fBodyAcc-std()-Y"                "fBodyAcc-std()-Z"               
-    ## [47] "fBodyAcc-meanFreq()-X"           "fBodyAcc-meanFreq()-Y"          
-    ## [49] "fBodyAcc-meanFreq()-Z"           "fBodyAccJerk-mean()-X"          
-    ## [51] "fBodyAccJerk-mean()-Y"           "fBodyAccJerk-mean()-Z"          
-    ## [53] "fBodyAccJerk-std()-X"            "fBodyAccJerk-std()-Y"           
-    ## [55] "fBodyAccJerk-std()-Z"            "fBodyAccJerk-meanFreq()-X"      
-    ## [57] "fBodyAccJerk-meanFreq()-Y"       "fBodyAccJerk-meanFreq()-Z"      
-    ## [59] "fBodyGyro-mean()-X"              "fBodyGyro-mean()-Y"             
-    ## [61] "fBodyGyro-mean()-Z"              "fBodyGyro-std()-X"              
-    ## [63] "fBodyGyro-std()-Y"               "fBodyGyro-std()-Z"              
-    ## [65] "fBodyGyro-meanFreq()-X"          "fBodyGyro-meanFreq()-Y"         
-    ## [67] "fBodyGyro-meanFreq()-Z"          "fBodyAccMag-mean()"             
-    ## [69] "fBodyAccMag-std()"               "fBodyAccMag-meanFreq()"         
-    ## [71] "fBodyBodyAccJerkMag-mean()"      "fBodyBodyAccJerkMag-std()"      
-    ## [73] "fBodyBodyAccJerkMag-meanFreq()"  "fBodyBodyGyroMag-mean()"        
-    ## [75] "fBodyBodyGyroMag-std()"          "fBodyBodyGyroMag-meanFreq()"    
-    ## [77] "fBodyBodyGyroJerkMag-mean()"     "fBodyBodyGyroJerkMag-std()"     
-    ## [79] "fBodyBodyGyroJerkMag-meanFreq()" "subjectID"                      
-    ## [81] "testFlag"                        "activity"
+    ##  [1] "tBodyAcc-mean()-X"           "tBodyAcc-mean()-Y"          
+    ##  [3] "tBodyAcc-mean()-Z"           "tBodyAcc-std()-X"           
+    ##  [5] "tBodyAcc-std()-Y"            "tBodyAcc-std()-Z"           
+    ##  [7] "tGravityAcc-mean()-X"        "tGravityAcc-mean()-Y"       
+    ##  [9] "tGravityAcc-mean()-Z"        "tGravityAcc-std()-X"        
+    ## [11] "tGravityAcc-std()-Y"         "tGravityAcc-std()-Z"        
+    ## [13] "tBodyAccJerk-mean()-X"       "tBodyAccJerk-mean()-Y"      
+    ## [15] "tBodyAccJerk-mean()-Z"       "tBodyAccJerk-std()-X"       
+    ## [17] "tBodyAccJerk-std()-Y"        "tBodyAccJerk-std()-Z"       
+    ## [19] "tBodyGyro-mean()-X"          "tBodyGyro-mean()-Y"         
+    ## [21] "tBodyGyro-mean()-Z"          "tBodyGyro-std()-X"          
+    ## [23] "tBodyGyro-std()-Y"           "tBodyGyro-std()-Z"          
+    ## [25] "tBodyGyroJerk-mean()-X"      "tBodyGyroJerk-mean()-Y"     
+    ## [27] "tBodyGyroJerk-mean()-Z"      "tBodyGyroJerk-std()-X"      
+    ## [29] "tBodyGyroJerk-std()-Y"       "tBodyGyroJerk-std()-Z"      
+    ## [31] "tBodyAccMag-mean()"          "tBodyAccMag-std()"          
+    ## [33] "tGravityAccMag-mean()"       "tGravityAccMag-std()"       
+    ## [35] "tBodyAccJerkMag-mean()"      "tBodyAccJerkMag-std()"      
+    ## [37] "tBodyGyroMag-mean()"         "tBodyGyroMag-std()"         
+    ## [39] "tBodyGyroJerkMag-mean()"     "tBodyGyroJerkMag-std()"     
+    ## [41] "fBodyAcc-mean()-X"           "fBodyAcc-mean()-Y"          
+    ## [43] "fBodyAcc-mean()-Z"           "fBodyAcc-std()-X"           
+    ## [45] "fBodyAcc-std()-Y"            "fBodyAcc-std()-Z"           
+    ## [47] "fBodyAccJerk-mean()-X"       "fBodyAccJerk-mean()-Y"      
+    ## [49] "fBodyAccJerk-mean()-Z"       "fBodyAccJerk-std()-X"       
+    ## [51] "fBodyAccJerk-std()-Y"        "fBodyAccJerk-std()-Z"       
+    ## [53] "fBodyGyro-mean()-X"          "fBodyGyro-mean()-Y"         
+    ## [55] "fBodyGyro-mean()-Z"          "fBodyGyro-std()-X"          
+    ## [57] "fBodyGyro-std()-Y"           "fBodyGyro-std()-Z"          
+    ## [59] "fBodyAccMag-mean()"          "fBodyAccMag-std()"          
+    ## [61] "fBodyBodyAccJerkMag-mean()"  "fBodyBodyAccJerkMag-std()"  
+    ## [63] "fBodyBodyGyroMag-mean()"     "fBodyBodyGyroMag-std()"     
+    ## [65] "fBodyBodyGyroJerkMag-mean()" "fBodyBodyGyroJerkMag-std()" 
+    ## [67] "subjectID"                   "testFlag"                   
+    ## [69] "activity"
 
 Tidy dataset (part 5)
 =====================
@@ -423,7 +383,7 @@ TidyData <- aggregate(meanStd_data[,1:numExtractedVariables], by=list("id"=meanS
 dim(TidyData)
 ```
 
-    ## [1] 180  81
+    ## [1] 180  68
 
 ``` r
 write.table(TidyData,"TidyData.txt", row.names = F)
