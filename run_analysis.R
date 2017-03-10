@@ -15,15 +15,13 @@ traindata <- read.table("./UCI HAR Dataset/train/X_train.txt")
 trainlabels <- read.table("./UCI HAR Dataset/train/y_train.txt")
 trainsubject <- read.table("./UCI HAR Dataset/train/subject_train.txt")
 
-oldVariableNames <- names(traindata)
-
 # Merging (part 1) -------------------------------------------------------------
 ## get dimensions
 testDim <- dim(testdata)
 trainDim <- dim(traindata)
 
 ## conmbine subject variable
-subjectID <- rbind(testsubject, trainsubject)
+subjectID <- data.table(rbind(testsubject, trainsubject))
 
 ## add testFlag variable which is TRUE if the observation from the testdata and FALSE otherwise
 ## add to the test table
@@ -33,7 +31,7 @@ traindata$testFlag <- rep(FALSE,trainDim[1])
 
 ## Combine the train and test tables, add the subjectID
 totalData <- rbind(testdata,traindata)
-totalData$subjectID <- subjectID
+totalData <- cbind(totalData, setnames(subjectID,c('subjectID')))
 
 # Extract the mean and std (part 2) ------------------------------------------------------
 
@@ -75,23 +73,13 @@ library(abind)
 table(trainsubject)
 table(testsubject)
 
-## subj#1 data
-subjects = 1:3
-final <- data.frame()
-getAverageAndBind <- function(x){
-        subj <- totalData[totalData$subjectID == x,]
-        subjAvgData <- aggregate(subj[,2:561], list("activity" = subj$activity), mean)
-        rownames(subjAvgData) <- activityNames[,2]
-        subjAvgData
-}
-output <- sapply(subjects, getAverageAndBind)
+## aggregate wrt subjectID and activity name
+TidyData <- aggregate(totalData[,1:561], by=list("id"=totalData$subjectID, "activity" = totalData$activity), mean)
 
-for(i in subjects){
-        if(i == 1)
-        TidyData <- data.frame(output[,i])        
-        else
-        TidyData <- abind(df,data.frame(output[,i]) ,along = 3)
-}
+## check tidyData dimension
+dim(TidyData)
+
+write.table(TidyData,"TidyData.txt", row.names = F)
 
 
 
