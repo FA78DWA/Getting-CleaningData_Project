@@ -42,7 +42,7 @@ trainDim <- dim(traindata)
 combine subject variable from test data and training data into one column `subjectID`.
 
 ``` r
-subjectID <- rbind(testsubject, trainsubject)
+subjectID <- data.table(rbind(testsubject, trainsubject))
 ```
 
 add `testFlag` variable which is `TRUE` if the observation is from the `testdata` and `FALSE` otherwise.
@@ -58,7 +58,7 @@ Combine the `testdata` and `traindata` tables. Then, add the `subjectID`
 
 ``` r
 totalData <- rbind(testdata,traindata)
-totalData$subjectID <- subjectID
+totalData <- cbind(totalData, setnames(subjectID,c('subjectID')))
 ```
 
 Check the dimensions of the final big dataset `totalData`. In this step, i added `testFlag` and `subjectID` columns.
@@ -316,56 +316,19 @@ table(testsubject)
 
 We have a total of 30 subjects. Subject number \[2,4,9,10,12,13,18,20,24\] are in the `testset` and the others are in the `trainset`.
 
-To create a 3D dataset with **\[rows,columns,depth\]** are **\[activity, measurements, subjects\]**, i followed the following steps
+To create a new tidy data i used `aggregate` to calculate the `mean` for each measurement grouped by `subjectID` and `activity`. The final dataset `TidyData` has dimensions of **\[180x563\]**. The output variables (columns) are `id` for subject id, `activity`, and the 561 measurements.
 
-1.  Extract the measurements for each subject from `totalData` we created at **part 1**, and stor it in `subj`.
-2.  Use `aggregate` to calculate the `mean` for each measure (column), and stor it in `subjAvgData`.
-3.  Change the `rownames` of `subjAvgData` from numbers to activity names.
-
-These three steps are added into a function called `getAverageAndBind`, and applied on `totalData` using `sapply` function. The output of this step is a **\[measurements x subjects\]=\[561 \* 30\]** datatable stored in `output`, each entry is a list contains the measurements for all the 6 activities for this subject.
-
-Then in a `for loop`, i extracted each `subjAvgData` and bind them into a 3D array using `abind`. The final dataset is stored in `TidyData`.
+Save the `TidyData` as a `.txt` file.
 
 ``` r
-library(abind)
-
-subjects = 1:30
-
-getAverageAndBind <- function(x){
-        subj <- totalData[totalData$subjectID == x,]
-        subjAvgData <- aggregate(subj[,2:561], list("activity" = subj$activity), mean)
-        rownames(subjAvgData) <- activityNames[,2]
-        subjAvgData
-}
-
-
-output <- sapply(subjects, getAverageAndBind)
-
-##check the dimension of output
-dim(output)
-```
-
-    ## [1] 561  30
-
-``` r
-## each entry in output is a list eith 6 values
-output[2,1]
-```
-
-    ## $`tBodyAcc-mean()-Y`
-    ## [1] -0.040513953 -0.001308288 -0.016137590 -0.017383819 -0.009918505
-    ## [6] -0.023953149
-
-``` r
-for(i in subjects){
-        if(i == 1)
-        TidyData <- data.frame(output[,i])        
-        else
-        TidyData <- abind(TidyData,data.frame(output[,i]) ,along = 3)
-}
+TidyData <- aggregate(totalData[,1:561], by=list("id"=totalData$subjectID, "activity" = totalData$activity), mean)
 
 ## check tidyData dimension
 dim(TidyData)
 ```
 
-    ## [1]   6 561  30
+    ## [1] 180 563
+
+``` r
+write.table(TidyData,"TidyData.txt", row.names = F)
+```
